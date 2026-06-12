@@ -1,0 +1,49 @@
+<!-- simulation.launch
+     Gazebo + AWS Bookstore World + TurtleBot3 başlatır.
+     Kullanım: roslaunch turtlebot3_service_robot simulation.launch
+-->
+<launch>
+
+  <!-- TurtleBot3 model seçimi (burger / waffle / burger) -->
+  <arg name="model"     default="burger" doc="TurtleBot3 modeli"/>
+  <arg name="x_pos"     default="0.0"/>
+  <arg name="y_pos"     default="0.0"/>
+  <arg name="z_pos"     default="0.0"/>
+  <arg name="gui"       default="true"/>
+
+  <!-- TurtleBot3 model parametresi -->
+  <param name="tb3_model" value="$(arg model)"/>
+
+  <!-- URDF robot açıklaması -->
+  <param name="robot_description"
+         command="$(find xacro)/xacro
+                  $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro"/>
+
+  <!-- Gazebo sunucu + istemci -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name"
+         value="$(find aws_robomaker_bookstore_world)/worlds/bookstore.world"/>
+    <arg name="paused"     value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui"        value="$(arg gui)"/>
+    <arg name="headless"   value="false"/>
+    <arg name="debug"      value="false"/>
+  </include>
+
+  <!-- Robot spawn -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model turtlebot3_$(arg model)
+              -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos)
+              -param robot_description"/>
+
+  <!-- Temel TF / state publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+        type="robot_state_publisher">
+    <param name="publish_frequency" value="50.0"/>
+  </node>
+
+  <!-- Joint state publisher -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher"
+        type="joint_state_publisher"/>
+
+</launch>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="qr_novel_section">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.5 0.01 0.5</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://qr_novel_section/materials/scripts</uri>
+            <uri>model://qr_novel_section/materials/textures</uri>
+            <name>QR_NOVEL_SECTION</name>
+          </script>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.5 0.01 0.5</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

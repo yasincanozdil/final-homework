@@ -1,0 +1,42 @@
+<!-- task_manager.launch
+     QR okuyucu + Görev Yöneticisi node'larını başlatır.
+
+     Kullanım (navigation.launch çalışırken):
+       roslaunch turtlebot3_service_robot task_manager.launch
+
+     Opsiyonel parametreler:
+       mission_file:=/tam/yol/mission.yaml
+       nav_retries:=1
+       qr_retries:=2
+       timeout:=90
+-->
+<launch>
+
+  <!-- Mission dosyası yolu -->
+  <arg name="mission_file"
+       default="$(find turtlebot3_service_robot)/config/mission.yaml"/>
+
+  <!-- Navigasyon parametreleri -->
+  <arg name="nav_retries" default="1"/>
+  <arg name="qr_retries"  default="2"/>
+  <arg name="timeout"     default="90"/>
+
+  <!-- Kamera topic (TurtleBot3 Waffle Pi varsayılanı) -->
+  <arg name="camera_topic" default="/camera/rgb/image_raw"/>
+
+  <!-- ===== QR Reader Node ===== -->
+  <node name="qr_reader" pkg="turtlebot3_service_robot"
+        type="qr_reader.py" output="screen">
+    <param name="camera_topic" value="$(arg camera_topic)"/>
+  </node>
+
+  <!-- ===== Task Manager Node ===== -->
+  <node name="task_manager" pkg="turtlebot3_service_robot"
+        type="task_manager.py" output="screen" required="true">
+    <param name="mission_file" value="$(arg mission_file)"/>
+    <param name="nav_retries"  value="$(arg nav_retries)"/>
+    <param name="qr_retries"   value="$(arg qr_retries)"/>
+    <param name="timeout"      value="$(arg timeout)"/>
+  </node>
+
+</launch>

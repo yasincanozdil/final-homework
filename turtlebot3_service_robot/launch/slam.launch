@@ -1,0 +1,32 @@
+<!-- slam.launch
+     gmapping SLAM başlatır. Teleop ile gezerken harita oluşturur.
+
+     Kullanım:
+       roslaunch turtlebot3_service_robot slam.launch
+
+     Haritayı kaydetmek için (ayrı terminalde):
+       rosrun map_server map_saver -f $(rospack find turtlebot3_service_robot)/maps/map
+-->
+<launch>
+
+  <arg name="model"       default="burger"/>
+  <arg name="slam_methods" default="gmapping"/>
+  <arg name="open_rviz"   default="true"/>
+
+  <param name="tb3_model" value="$(arg model)"/>
+
+  <!-- gmapping -->
+  <include file="$(find turtlebot3_slam)/launch/turtlebot3_$(arg slam_methods).launch">
+    <arg name="model" value="$(arg model)"/>
+  </include>
+
+  <!-- Teleop (klavye kontrolü için — ayrı terminalde çalıştırılabilir) -->
+  <!-- rosrun teleop_twist_keyboard teleop_twist_keyboard.py -->
+
+  <!-- RViz -->
+  <group if="$(arg open_rviz)">
+    <node pkg="rviz" type="rviz" name="rviz"
+          args="-d $(find turtlebot3_slam)/rviz/turtlebot3_$(arg slam_methods).rviz"/>
+  </group>
+
+</launch>

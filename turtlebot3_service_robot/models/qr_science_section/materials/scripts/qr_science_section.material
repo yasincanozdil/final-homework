@@ -1,0 +1,13 @@
+material QR_SCIENCE_SECTION
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture qr_science_section.png
+      }
+    }
+  }
+}
