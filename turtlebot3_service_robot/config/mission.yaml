@@ -6,9 +6,9 @@ locations:
 
 INFORMATION_DESK:
   goal:
-    x: -1.663
-    y: -4.861
-    yaw: 0.67
+    x: 3.257
+    y: -0.360
+    yaw: -0.29
   qr_expected: "LOCATION=INFORMATION_DESK"
   timeout: 90
   qr_retries: 2
@@ -33,9 +33,9 @@ NOVEL_SECTION:
 
 CHECKOUT_AREA:
   goal:
-    x: 3.206
-    y: -6.159
-    yaw: -1.99
+    x: 3.275
+    y: -3.667
+    yaw: -0.86
   qr_expected: "LOCATION=CHECKOUT_AREA"
   timeout: 90
   qr_retries: 2
